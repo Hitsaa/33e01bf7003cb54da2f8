@@ -1,6 +1,6 @@
 const colors = {
-  primaryBlue: "red",
-  primaryPink: "yellow",
+  primaryBlue: "lightblue",
+  primaryPink: "lightpink",
   warmGrey: "#a1a1a1",
   palePurple: '#9898d5',
   blueGray: '#ecf1f8',

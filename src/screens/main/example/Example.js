@@ -9,7 +9,7 @@ import Toast from "../../../utils/Toast";
 import Validator from "../../../utils/ValidateUtil";
 
 import { exampleService } from "../../../services";
-
+import { DataTable } from 'react-native-paper';
 import  { colors } from "../../../styles";
 
 const styles = StyleSheet.create({
@@ -34,13 +34,36 @@ function Example({ navigation }) {
   const {} = exampleData || {}
 
   return (
+
       <View style={styles.root}>
           <StatusBar backgroundColor={colors.primaryPink } barStyle='light-content' />
           <View style={styles.container}>
-            <Text>Name - {exampleData} </Text>
-            <Text>- </Text>
-            <Text>-</Text>
-          </View>
+            <DataTable>
+            <DataTable.Header>
+              <DataTable.Title>Title</DataTable.Title>
+              <DataTable.Title>URL</DataTable.Title>
+              <DataTable.Title>Created AT</DataTable.Title>
+              <DataTable.Title>Author</DataTable.Title>
+            </DataTable.Header>
+            {exampleData.map(key => {
+              <DataTable.Row>
+              <DataTable.Cell>{key.title}</DataTable.Cell>
+              <DataTable.Cell>{key.url}</DataTable.Cell>
+              <DataTable.Cell>{key.created_at}</DataTable.Cell>
+              <DataTable.Cell>{key.author}</DataTable.Cell>
+            </DataTable.Row>
+            })}
+            
+            <DataTable.Pagination
+              page={1}
+              numberOfPages={exampleData.pageSize}
+              onPageChange={page => {
+                console.log(page);
+              }}
+              label={page + "of " + numberOfPages}
+            />
+          </DataTable>          
+        </View>
       </View>
   );
 }

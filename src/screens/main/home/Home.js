@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import PropTypes from 'prop-types';
 import { Text, StyleSheet, TouchableOpacity, Image, View, StatusBar } from "react-native";
 import { Content, Input, Item } from "native-base";
-
 import Button from "../../../components/button";
 
 import Toast from "../../../utils/Toast";
@@ -11,6 +10,7 @@ import Validator from "../../../utils/ValidateUtil";
 import { exampleService } from "../../../services";
 
 import  { colors } from "../../../styles";
+import Axios from "axios";
 
 const styles = StyleSheet.create({
   root: {
@@ -40,6 +40,17 @@ const styles = StyleSheet.create({
 function Home({ navigation }) {
   const [isLoading, setIsLoading] = React.useState();
   const [example, setexample]= React.useState();
+  const [apiData, setApiData] = React.useState();
+
+  function componentDidMount(){
+    Axios.get('https://hn.algolia.com/api/v1/search_by_date?tags=story&page=0').then(
+      res => {
+        (setApiData=res.data)
+      }
+    ).catch(function(error){
+      console.log(error);
+    })
+  }
 
   function handleexampleResponse(exampleData) {
     navigation.navigate('Example', { exampleData });
@@ -48,7 +59,7 @@ function Home({ navigation }) {
   function handleSubmit() {
     if (!Validator.validateFeild(example)) return Toast.warning("please fill the example Id");
     setIsLoading(true);
-    handleexampleResponse("Example");
+    handleexampleResponse(setApiData);
     // exampleService
     //   .getexample(example)
     //   .then(handleexampleResponse)
